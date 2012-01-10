@@ -10,8 +10,6 @@ sys.path[0:0] = [
 import %(module_name)s
 
 application = %(module_name)s.%(attrs)s(%(arguments)s)
-
-# using fork
 """,
     'fcgi': """
 
@@ -26,6 +24,13 @@ import %(module_name)s
 %(module_name)s.%(attrs)s(%(arguments)s)
 """,
 }
+
+new_relic = """
+import newrelic.agent
+newrelic.agent.initialize('%(ini)s')
+
+application = newrelic.agent.wsgi_application()(application)
+"""
 
 production_settings = """
 from %(project)s.settings import *

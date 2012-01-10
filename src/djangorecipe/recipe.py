@@ -6,7 +6,7 @@ import re
 from zc.buildout import UserError
 import zc.recipe.egg
 
-from djangorecipe.boilerplate import script_template, versions
+from djangorecipe.boilerplate import script_template, versions, new_relic
 
 
 class Recipe(object):
@@ -26,6 +26,9 @@ class Recipe(object):
 
         options.setdefault('project', 'project')
         options.setdefault('settings', 'development')
+
+        #new relic support
+        options.setdefault('new_relic_ini', '')
 
         options.setdefault('urlconf', options['project'] + '.urls')
         options.setdefault(
@@ -151,11 +154,16 @@ class Recipe(object):
 
     def make_scripts(self, extra_paths, ws):
         scripts = []
+        new_relic_template = ''
+        if self.options['new_relic_ini']:
+            new_relic_template = new_relic % {'ini':self.options['new_relic_ini']}
+
         _script_template = zc.buildout.easy_install.script_template
         for protocol in ('wsgi', 'fcgi'):
             zc.buildout.easy_install.script_template = \
                 zc.buildout.easy_install.script_header + \
-                    script_template[protocol]
+                    script_template[protocol] + \
+                        new_relic_template
             if self.options.get(protocol, '').lower() == 'true':
                 project = self.options.get('projectegg',
                                            self.options['project'])
