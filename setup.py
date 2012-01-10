@@ -2,7 +2,7 @@ import os
 
 from setuptools import setup, find_packages
 
-version = '1.1.2'
+version = '1.1.3'
 
 
 def read_file(name):
@@ -12,7 +12,7 @@ def read_file(name):
 readme = read_file('README.txt')
 changes = read_file('CHANGES.txt')
 
-setup(name='djangorecipe',
+setup(name='hakjoon-djangorecipe',
       version=version,
       description="Buildout recipe for Django",
       long_description='\n\n'.join([readme, changes]),

@@ -10,6 +10,8 @@ sys.path[0:0] = [
 import %(module_name)s
 
 application = %(module_name)s.%(attrs)s(%(arguments)s)
+
+# using fork
 """,
     'fcgi': """
 
